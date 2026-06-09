@@ -6,7 +6,6 @@ resource "aws_vpc" "vpc" {
 
 }
 
-
 resource "aws_subnet" "public-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.0.0/24"
@@ -99,20 +98,6 @@ resource "aws_route_table_association" "web_azb" {
   route_table_id = aws_route_table.rt_aza.id
 }
 
-
-resource "aws_security_group" "ecs-sgrp" {
-  name        = "sgrp-web-server"
-  description = "Allow HTTP inbound traffic"
-  vpc_id      = aws_vpc.vpc.id
-
-  egress {
-    description = "outbound traffic"
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id

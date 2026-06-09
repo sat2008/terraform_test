@@ -28,16 +28,18 @@ resource "aws_ecs_service" "nginx_service" {
   cluster         = aws_ecs_cluster.nginx_cluster.id
   task_definition = aws_ecs_task_definition.nginx_task.arn
   launch_type     = "FARGATE"
-
+   # missing desired_count   for runiing the tasks ???
+   desired_count   = 1
   network_configuration {
-    subnets         = [aws_subnet.web-1.id]
+    # subnet assignmnets not correct single subnet ALB need both for farget
+    subnets = [aws_subnet.web-1.id, aws_subnet.web-2.id]
     security_groups = [aws_security_group.ecs-sgrp.id]
   }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.nginx_target_group.arn
     container_name   = "nginx-container"
-    container_port   = 81
+    container_port   = 80 # port doesnt match 81
   }
 
   depends_on = [aws_ecs_task_definition.nginx_task]
