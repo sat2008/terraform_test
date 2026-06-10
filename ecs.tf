@@ -10,7 +10,6 @@ resource "aws_ecs_task_definition" "nginx_task" {
   cpu           = "256"
   memory        = "512"
   task_role_arn = aws_iam_role.ecs_task_role.arn
-
   execution_role_arn = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = jsonencode([{
@@ -28,11 +27,11 @@ resource "aws_ecs_service" "nginx_service" {
   cluster         = aws_ecs_cluster.nginx_cluster.id
   task_definition = aws_ecs_task_definition.nginx_task.arn
   launch_type     = "FARGATE"
-   # missing desired_count   for runiing the tasks ???
+   # missing desired_count   for runing the tasks ???
    desired_count   = 1
   network_configuration {
     # subnet assignmnets not correct single subnet ALB need both for farget
-    subnets = [aws_subnet.web-1.id, aws_subnet.web-2.id]
+    subnets = module.network.web_subnet_ids
     security_groups = [aws_security_group.ecs-sgrp.id]
   }
 
@@ -42,5 +41,7 @@ resource "aws_ecs_service" "nginx_service" {
     container_port   = 80 # port doesnt match 81
   }
 
-  depends_on = [aws_ecs_task_definition.nginx_task]
+  #depends_on = [aws_ecs_task_definition.nginx_task]
+  # ECS service depend on the ALB listener
+  depends_on = [aws_lb_listener.nginx_listener]
 }

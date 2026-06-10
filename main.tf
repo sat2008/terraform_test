@@ -1,3 +1,15 @@
+
+module "network" {
+  source = "./modules/network"
+
+  env_tag          = var.environment
+  vpc_cidr         = var.vpc_cidr
+  public_subnets   = var.public_subnets
+  web_subnets      = var.web_subnets
+  database_subnets = var.database_subnets
+}
+
+
 resource "aws_db_instance" "rds" {
   allocated_storage      = 10
   db_subnet_group_name   = aws_db_subnet_group.subnet_group.id
@@ -14,7 +26,9 @@ resource "aws_db_instance" "rds" {
 
 resource "aws_db_subnet_group" "subnet_group" {
   name       = "main"
-  subnet_ids = [aws_subnet.database-1.id, aws_subnet.database-2.id]
+  subnet_ids = module.network.database_subnet_ids
+  # module replacment
+  # subnet_ids = [aws_subnet.database-1.id, aws_subnet.database-2.id]
   # pointing to wrong subnet 
   #subnet_ids = [aws_subnet.public-1.id, aws_subnet.public-2.id]
 

@@ -1,19 +1,6 @@
-variable "environment" {
-  description = "the environment name"
-}
-
-variable "service" {
-  description = "the service name"
-}
-
-variable "profile" {
-  type    = string
-  default = null
-}
-
-variable "region" {
-  type    = string
-  default = "eu-west-2"
+variable "env_tag" {
+  description = "Environment name used for network resource tags."
+  type        = string
 }
 
 variable "vpc_cidr" {
