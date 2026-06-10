@@ -20,4 +20,13 @@ module "secrets_kms" {
   }
 }
 
+module "alb" {
+  source = "./modules/alb"
 
+  name               = "nginx-alb"
+  environment        = var.environment
+  vpc_id             = module.network.vpc_id
+  subnet_ids         = module.network.public_subnet_ids
+  security_group_ids = [aws_security_group.alb-sgrp.id]
+  target_group_name  = "nginx-target-group"
+}
