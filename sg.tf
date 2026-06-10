@@ -1,7 +1,7 @@
 resource "aws_security_group" "alb-sgrp" {
   name        = "sgrp-alb"
   description = "Allow public HTTP traffic to ALB"
-  vpc_id      = aws_vpc.vpc.id
+  vpc_id      = module.network.vpc_id
 
   ingress {
     description = "HTTP from internet"
@@ -24,7 +24,7 @@ resource "aws_security_group" "alb-sgrp" {
 resource "aws_security_group" "database-sgrp" {
   name        = "sgrp-database"
   description = "Privite route Allow database traffic from ECS only"
-  vpc_id      = aws_vpc.vpc.id
+  vpc_id      = module.network.vpc_id
 
   ## Open to full public ????
   # ingress {
@@ -72,7 +72,7 @@ resource "aws_security_group" "database-sgrp" {
 resource "aws_security_group" "ecs-sgrp" {
   name        = "sgrp-web-server"
   description = "Allow HTTP traffic from ALB to ECS"
-  vpc_id      = aws_vpc.vpc.id
+  vpc_id      = module.network.vpc_id
 
   ingress {
     description     = "HTTP from ALB"

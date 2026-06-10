@@ -2,7 +2,7 @@ resource "aws_lb" "nginx_alb" {
   name               = "nginx-alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = [aws_subnet.public-1.id, aws_subnet.public-2.id]
+  subnets            = module.network.public_subnet_ids
   
   #incoming public to ALB 
   security_groups = [aws_security_group.alb-sgrp.id]
@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "nginx_target_group" {
   name     = "nginx-target-group"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.vpc.id
+  vpc_id   = module.network.vpc_id
   # requred for Farget ECS type= IP
   target_type = "ip"
   health_check {
