@@ -3,7 +3,10 @@ resource "aws_lb" "nginx_alb" {
   internal           = false
   load_balancer_type = "application"
   subnets            = [aws_subnet.public-1.id, aws_subnet.public-2.id]
-  security_groups    = [aws_security_group.ecs-sgrp.id]
+  
+  #incoming public to ALB 
+  security_groups = [aws_security_group.alb-sgrp.id]
+  # wrong one pointed security_groups    = [aws_security_group.ecs-sgrp.id]
 
   enable_deletion_protection = false
 
@@ -39,6 +42,7 @@ resource "aws_lb_target_group" "nginx_target_group" {
 
 }
 
+# Not quite sure what this but Fargate registers IP targets automatically through the load_balancer block
 # resource "aws_lb_target_group_attachment" "nginx_target_group_attachment" {
 #   target_group_arn = aws_lb_target_group.nginx_target_group.arn
 #   target_id        = aws_ecs_service.nginx_service.name
