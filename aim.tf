@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-
+#will need this to access and read secret 
 resource "aws_iam_role_policy" "ecs_read_db_secret" {
   name = "ecs-read-db-secret"
   role = aws_iam_role.ecs_task_role.id
