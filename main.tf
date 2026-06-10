@@ -9,18 +9,32 @@ module "network" {
   database_subnets = var.database_subnets
 }
 
+module "secrets_kms" {
+  source = "./modules/kms"
+
+  alias_name  = "${var.environment}-secrets"
+  description = "${var.environment} KMS key for Secrets Manager and RDS secrets"
+
+  tags = {
+    Environment = var.environment
+    Service     = var.service
+  }
+}
 
 resource "aws_db_instance" "rds" {
-  allocated_storage      = 10
-  db_subnet_group_name   = aws_db_subnet_group.subnet_group.id
-  engine                 = "postgres"
-  engine_version         = "13" #"postgres13" wrong format 
-  instance_class         = "db.t2.micro"
-  multi_az               = true
+  allocated_storage    = 10
+  db_subnet_group_name = aws_db_subnet_group.subnet_group.id
+  engine               = "postgres"
+  engine_version       = "13" #"postgres13" wrong format 
+  instance_class       = "db.t2.micro"
+  multi_az             = true
   #name                   = "mydb"
-  username               = "username"
-  password               = "password"
+  username                      = "username"
+  manage_master_user_password   = true
+  master_user_secret_kms_key_id = module.secrets_kms.key_arn
+  #password               = "password"
   skip_final_snapshot    = true
+  publicly_accessible    = false
   vpc_security_group_ids = [aws_security_group.database-sgrp.id]
 }
 
