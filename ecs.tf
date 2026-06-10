@@ -36,12 +36,15 @@ resource "aws_ecs_service" "nginx_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.nginx_target_group.arn
+    #module added
+    # target_group_arn = aws_lb_target_group.nginx_target_group.arn
+    target_group_arn = module.alb.target_group_arn
     container_name   = "nginx-container"
     container_port   = 80 # port doesnt match 81
   }
 
   #depends_on = [aws_ecs_task_definition.nginx_task]
   # ECS service depend on the ALB listener
-  depends_on = [aws_lb_listener.nginx_listener]
+  # before module changes depends_on = [aws_lb_listener.nginx_listener]
+  depends_on = [module.alb]
 }
