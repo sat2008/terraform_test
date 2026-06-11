@@ -28,7 +28,8 @@ resource "aws_ecs_service" "nginx_service" {
   task_definition = aws_ecs_task_definition.nginx_task.arn
   launch_type     = "FARGATE"
    # missing desired_count   for runing the tasks ???
-   desired_count   = 1
+   #desired_count   = 1
+  desired_count   = var.ecs_min_capacity
   network_configuration {
     # subnet assignmnets not correct single subnet ALB need both for farget
     subnets = module.network.web_subnet_ids

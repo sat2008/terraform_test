@@ -7,6 +7,13 @@ alb_enable_https           = false
 alb_redirect_http_to_https = false
 alb_certificate_arn        = null #"arn:aws:acm:eu-west-2:myaccount:certificate/terraform_test.crt"
 
+ecs_min_capacity        = 1
+ecs_max_capacity        = 4
+ecs_cpu_target_value    = 60
+ecs_memory_target_value = 70
+ecs_scale_in_cooldown   = 300
+ecs_scale_out_cooldown  = 60
+
 vpc_cidr = "10.0.0.0/16"
 
 public_subnets = {
