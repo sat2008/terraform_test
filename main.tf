@@ -55,3 +55,18 @@ module "alb" {
     ManagedBy   = "terraform"
   }
 }
+
+module "ecs_autoscaling" {
+  source = "./modules/ecs-autoscaling"
+
+  name_prefix  = "${var.environment}-${var.service}"
+  cluster_name = aws_ecs_cluster.nginx_cluster.name
+  service_name = aws_ecs_service.nginx_service.name
+
+  min_capacity        = var.ecs_min_capacity
+  max_capacity        = var.ecs_max_capacity
+  cpu_target_value    = var.ecs_cpu_target_value
+  memory_target_value = var.ecs_memory_target_value
+  scale_in_cooldown   = var.ecs_scale_in_cooldown
+  scale_out_cooldown  = var.ecs_scale_out_cooldown
+}

@@ -68,3 +68,35 @@ variable "alb_ssl_policy" {
   type        = string
   default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 }
+
+
+### ecs
+variable "ecs_min_capacity" {
+  description = "Minimum ECS service desired task count."
+  type        = number
+}
+
+variable "ecs_max_capacity" {
+  description = "Maximum ECS service desired task count."
+  type        = number
+}
+
+variable "ecs_cpu_target_value" {
+  description = "Target average ECS service CPU utilization percentage."
+  type        = number
+}
+
+variable "ecs_memory_target_value" {
+  description = "Target average ECS service memory utilization percentage."
+  type        = number
+}
+
+variable "ecs_scale_in_cooldown" {
+  description = "Cooldown in seconds before scaling in."
+  type        = number
+}
+
+variable "ecs_scale_out_cooldown" {
+  description = "Cooldown in seconds before scaling out."
+  type        = number
+}
