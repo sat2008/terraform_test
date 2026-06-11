@@ -2,6 +2,11 @@ environment = "test"
 profile     = "terra"
 service     = "nginx"
 
+# optional for https ALB listener (cert arn)
+alb_enable_https           = false
+alb_redirect_http_to_https = false
+alb_certificate_arn        = null #"arn:aws:acm:eu-west-2:myaccount:certificate/terraform_test.crt"
+
 vpc_cidr = "10.0.0.0/16"
 
 public_subnets = {

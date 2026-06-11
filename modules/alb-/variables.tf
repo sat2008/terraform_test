@@ -59,42 +59,6 @@ variable "listener_protocol" {
   default     = "HTTP"
 }
 
-variable "enable_https" {
-  description = "Whether to create an HTTPS listener."
-  type        = bool
-  default     = false
-}
-
-variable "redirect_http_to_https" {
-  description = "Whether the HTTP listener should redirect traffic to HTTPS."
-  type        = bool
-  default     = false
-}
-
-variable "https_listener_port" {
-  description = "Port for the HTTPS listener."
-  type        = number
-  default     = 443
-}
-
-variable "https_listener_protocol" {
-  description = "Protocol for the HTTPS listener."
-  type        = string
-  default     = "HTTPS"
-}
-
-variable "certificate_arn" {
-  description = "ACM certificate ARN for the HTTPS listener."
-  type        = string
-  default     = null
-}
-
-variable "ssl_policy" {
-  description = "SSL policy for the HTTPS listener."
-  type        = string
-  default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-}
-
 variable "target_group_name" {
   description = "Name of the target group."
   type        = string

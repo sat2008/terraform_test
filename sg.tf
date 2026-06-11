@@ -10,6 +10,14 @@ resource "aws_security_group" "alb-sgrp" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # https access when cert is used
+  ingress {
+    description = "HTTPS from internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     description = "Outbound traffic"

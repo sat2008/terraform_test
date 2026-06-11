@@ -40,48 +40,8 @@ resource "aws_lb_listener" "http" {
   port              = var.listener_port
   protocol          = var.listener_protocol
 
-  dynamic "default_action" {
-    for_each = var.enable_https && var.redirect_http_to_https ? [1] : []
-
-    content {
-      type = "redirect"
-
-      redirect {
-        port        = tostring(var.https_listener_port)
-        protocol    = var.https_listener_protocol
-        status_code = "HTTP_301"
-      }
-    }
-  }
-
-  dynamic "default_action" {
-    for_each = var.enable_https && var.redirect_http_to_https ? [] : [1]
-
-    content {
-      type             = "forward"
-      target_group_arn = aws_lb_target_group.this.arn
-    }
-  }
-}
-
-resource "aws_lb_listener" "https" {
-  count = var.enable_https ? 1 : 0
-
-  load_balancer_arn = aws_lb.this.arn
-  port              = var.https_listener_port
-  protocol          = var.https_listener_protocol
-  ssl_policy        = var.ssl_policy
-  certificate_arn   = var.certificate_arn
-
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.this.arn
-  }
-
-  lifecycle {
-    precondition {
-      condition     = var.certificate_arn != null && var.certificate_arn != ""
-      error_message = "certificate_arn must be provided when enable_https is true."
-    }
   }
 }
