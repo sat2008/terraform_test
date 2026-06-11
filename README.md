@@ -28,9 +28,10 @@ feature_code_fix_v1
 
 notes
 ------------------------------
-backend.tf file left disabled 
+backend_tf file left disabled 
 terraform.tfvars is used for this code 
-reusable modules added for network, alb, kms, ecs-autoscaling ONLY but can be further improved for other resource deploymnet 
+reusable modules added for network, alb, kms, ecs-autoscaling ONLY but can be further improved or expanded for other resource deployment depending on the requirements of business use case 
+
 
 
 
